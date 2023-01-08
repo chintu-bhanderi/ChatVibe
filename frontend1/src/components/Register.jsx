@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import { userRegister } from '../store/actions/authAction';
 
 const Register = () => {
+    const dispatch = useDispatch();
 
     const [state,setState] = useState({
         userName : '',
@@ -37,9 +40,19 @@ const Register = () => {
     }
 
     const register = (e) => {
+        const {userName,email,password,confirmPassword,image} = state;
         e.preventDefault();  // noth should be lead lage when submit.
-        console.log(state); 
+
+        // append the submited data
+        const formData = new FormData();
+
+        formData.append('userName',state.userName);
+        formData.append('email',state.emial);
+        formData.append('password',state.password);
+        formData.append('confirmPassword',state.confirmPassword);
+        formData.append('image',state.image);
         
+        dispatch(userRegister(formData));   
     }
 
   return (
