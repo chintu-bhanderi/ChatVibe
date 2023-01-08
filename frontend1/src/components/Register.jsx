@@ -18,6 +18,21 @@ const Register = () => {
         })
     }   
 
+    const fileHandle = (e) => {
+        if(e.target.files.length !== 0) {
+            setState({
+                ...state,
+                [e.target.name] : e.target.files[0]
+            })
+        }
+    }
+
+    const register = (e) => {
+        e.preventDefault();  // noth should be lead lage when submit.
+        console.log(state); 
+        
+    }
+
   return (
     <div className="register">
         <div className="card">
@@ -26,7 +41,7 @@ const Register = () => {
 
             </div>
             <div className="card-body">
-                <form>
+                <form onSubmit={register}>
                     <div className="form-group">
                         <label htmlFor="username">User Name</label>
                         <input type="text" onChange={inputHandle} name="userName" value={state.userName} className="form-control" placeholder="UserName" id="username"/>
@@ -51,7 +66,7 @@ const Register = () => {
                             </div>
                             <div className="file">
                                 <label htmlFor="image">Select Image</label>
-                                <input type="file" name="image" className="form-control" id="image" />
+                                <input type="file" onChange={fileHandle} name="image" className="form-control" id="image" />
                             </div>
                         </div>                            
                     </div>
