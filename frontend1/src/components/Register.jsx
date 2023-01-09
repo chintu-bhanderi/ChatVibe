@@ -46,13 +46,13 @@ const Register = () => {
         // append the submited data
         const formData = new FormData();
 
-        formData.append('userName',state.userName);
-        formData.append('email',state.emial);
-        formData.append('password',state.password);
-        formData.append('confirmPassword',state.confirmPassword);
-        formData.append('image',state.image);
-        
-        dispatch(userRegister(formData));   
+          formData.append('userName',userName);
+          formData.append('email',email);
+          formData.append('password',password);
+          formData.append('confirmPassword',confirmPassword);
+          formData.append('image',image);
+
+          dispatch(userRegister(formData));
     }
 
   return (
