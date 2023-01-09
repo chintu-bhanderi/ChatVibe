@@ -5,15 +5,17 @@ export const userRegister = (data) => {
 
           const config = {
                headers: {
-                    'Content-Type':'application/josn'
+                    'Content-Type':'application/json'
                }
           }
           try{
+               
+               console.log("Reach");
                const response = await axios.post('/api/messenger/user-register',data,config);
                console.log(response.data);
 
           } catch(error){
-               console.log(error.response.data);
+               console.log('1->' , error.response.data);
           }
 
      }
