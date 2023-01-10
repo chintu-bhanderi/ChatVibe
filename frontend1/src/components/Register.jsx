@@ -1,50 +1,46 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {useDispatch} from "react-redux"
 import { userRegister } from '../store/actions/authAction';
 
 const Register = () => {
     const dispatch = useDispatch();
 
-    const [state,setState] = useState({
-        userName : '',
-        email : '',
-        password : '',
-        confirmPassword : '',
-        image : '' 
-    });
-
-    const [loadImage,setLoadImage] = useState('');
-
-
+     const [state,setstate] = useState({
+          userName : '',
+          email:'',
+          password:'',
+          confirmPassword : '',
+          image : ''
+     })
+     const [loadImage, setLoadImage] = useState('');
 
     const inputHandle = (e) => {
-        setState({
+        setstate({
             ...state,
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value 
         })
-    }   
+    }
 
     const fileHandle = (e) => {
-        if(e.target.files.length !== 0) {
-            setState({
-                ...state,
-                [e.target.name] : e.target.files[0]
+        if(e.target.files.length !==0){
+            setstate({
+                 ...state,
+                 [e.target.name] : e.target.files[0]
             })
-        }
-        const reader = new FileReader();
-        reader.onload = () => {
+       }
+       const reader = new FileReader();
+       reader.onload = () => {
             setLoadImage(reader.result);
-        }
-        reader.readAsDataURL(e.target.files[0]);
+       }
+       reader.readAsDataURL(e.target.files[0]);
     }
 
     const register = (e) => {
-        const {userName,email,password,confirmPassword,image} = state;
-        e.preventDefault();  // noth should be lead lage when submit.
+        const {userName,email,password,confirmPassword, image} = state;
+          e.preventDefault();
 
-        // append the submited data
-        const formData = new FormData();
+          const formData = new FormData();
 
           formData.append('userName',userName);
           formData.append('email',email);
@@ -81,21 +77,20 @@ const Register = () => {
                         <input type="password" onChange={inputHandle} name="confirmPassword" value={state.confirmPassword} className="form-control" placeholder="ConfirmPassword" id="confirmPassword"/>
                     </div>
                     
-                    <div className="form-group">
-                        <div className="file-image">
-                            <div className="image">
-                                {loadImage ? <img src={loadImage} alt=""/> : ''}
-                            </div>  
-                            <div className="file">
-                                <label htmlFor="image">Select Image</label>
-                                <input type="file" onChange={fileHandle} name="image" className="form-control" id="image" />
-                            </div>
-                        </div>                            
-                    </div>
-
-                    <div className="form-group">
-                        <input type="submit" value="register" className="btn" />
-                    </div>
+                    <div className='form-group'>
+                  <div className='file-image'>
+                         <div className='image'>
+                            {loadImage ? <img src={loadImage} alt="" /> : ''  }                         
+                         </div>
+               <div className='file'>
+               <label htmlFor='image'>Select Image</label>
+               <input type="file" onChange={fileHandle}  name="image" className='form-control' id='image' />
+               </div>
+             </div>
+               </div>
+               <div className='form-group'>
+               <input type="submit" value="register" className='btn' />
+               </div>
                     <div className="form-group">
                         <span >
                             <Link to="/messenger/login">Login Your Account</Link>
