@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {REGISTER_FAIL} from "../types/authType";
 
 export const userRegister = (data) => {
      return async (dispatch) => {
@@ -15,7 +16,13 @@ export const userRegister = (data) => {
                console.log(response.data);
 
           } catch(error){
-               console.log('errorAuth-> ',error)
+               // console.log('errorAuth-> ',error)
+               dispatch({
+                    type: REGISTER_FAIL,
+                    payload:{
+                         error : error.response.data.error.errorMessage 
+                    }
+                })
           }
      }
 }
