@@ -25,6 +25,7 @@ if(getToken){
           authState.myInfo = getInfo;
           authState.authenticate = true;
           authState.loading = false;
+          
      }  
 }
 console.log(getToken);
