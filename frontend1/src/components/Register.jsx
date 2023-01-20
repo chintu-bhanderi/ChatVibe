@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// import {useDispatch} from "react-redux"
 import {useDispatch,useSelector} from "react-redux"
 import { userRegister } from '../store/actions/authAction';
 import { useAlert } from 'react-alert';
