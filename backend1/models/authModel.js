@@ -12,7 +12,7 @@ const registerSchema = new Schema({
      password : {
           type: String,
           required : true,
-          select : false
+          select : false  // for security, when get this tupple then password is not display.
      },
      image : {
           type: String,
