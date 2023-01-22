@@ -1,11 +1,14 @@
 import React from 'react';
 import { FaPhoneAlt,FaVideo,FaRocketchat } from "react-icons/fa";
 import Message from './Message';
+import MessageSend from './MessageSend';
+import FriendInfo from './FriendInfo';
 
 const RightSide = () => {
   return (
        <div className='col-9'>
             <div className='right-side'>
+               <input type="checkbox" id='dot' />
                  <div className='row'>
                       <div className='col-8'>
           <div className='message-send-show'>
@@ -30,17 +33,18 @@ const RightSide = () => {
      </div>
 
      <div className='icon'>
-          <FaRocketchat/>
+          <label htmlFor='dot'> <FaRocketchat/> </label>  
      </div>
 
     </div>
          </div>
           <Message />
+          <MessageSend />
              </div>
                       </div>  
 
                  <div className='col-4'>
-                    User About Page 
+                    <FriendInfo />
                </div>  
 
 
