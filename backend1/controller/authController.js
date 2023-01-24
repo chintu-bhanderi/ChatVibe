@@ -75,7 +75,7 @@ module.exports.userRegister = (req, res) => {
                                    const token = jwt.sign({
                                         id : userCreate._id,
                                         email: userCreate.email,
-                                        usreName: userCreate.userName,
+                                        userName: userCreate.userName,
                                         image: userCreate.image,
                                         registerTime: userCreate.createdAt,
                                    }, process.env.SECRET,{
