@@ -4,7 +4,7 @@ import ActiveFriend from './ActiveFriend';
 import Friends from './Friends';
 import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends } from '../store/actions/messengerAction';
+import { getFriends,messageSend} from '../store/actions/messengerAction';
 
 const Messenger = () => {
 
@@ -18,8 +18,12 @@ const Messenger = () => {
 
      const sendMessage = (e) => {
           e.preventDefault();
-          console.log(newMessage);
-     
+          const data = {
+               senderName : myInfo.userName,
+               reseverId : currentfriend._id,
+               message : newMessage ? newMessage : '❤'
+          }
+          dispatch(messageSend(data));
       }
 
      console.log(currentfriend);
@@ -77,7 +81,7 @@ const Messenger = () => {
 
                               <div className='friends'>
                                    {
-                                        friends && friends.length > 0 ? friends.map((fd) => <div onClick={() => setCurrentFriend(fd)} className='hover-friend'>
+                                        friends && friends.length > 0 ? friends.map((fd) => <div onClick={() => setCurrentFriend(fd)} className={currentfriend._id === fd._id ? 'hover-friend active' : 'hover-friend' }>
                                              <Friends friend={fd} />
                                         </div>) : 'No Friend'
                                    }
