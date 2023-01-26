@@ -6,7 +6,7 @@ import FriendInfo from './FriendInfo';
 
 const RightSide = (props) => {
 
-     const {currentfriend,inputHendle,newMessage,sendMessage,message} = props;
+     const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef} = props;
 
      return (
           <div className='col-9'>
@@ -44,6 +44,7 @@ const RightSide = (props) => {
                                    <Message 
                                         message = { message}
                                         currentfriend = {currentfriend}
+                                        scrollRef = {scrollRef}
                                    />
                                    <MessageSend
                                    inputHendle = {inputHendle}
