@@ -6,7 +6,7 @@ import FriendInfo from './FriendInfo';
 
 const RightSide = (props) => {
 
-     const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef} = props;
+     const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend} = props;
 
      return (
           <div className='col-9'>
@@ -50,6 +50,7 @@ const RightSide = (props) => {
                                    inputHendle = {inputHendle}
                                    newMessage = {newMessage}
                                    sendMessage = {sendMessage}
+                                   emojiSend = {emojiSend}
                                    />
                               </div>
                          </div>

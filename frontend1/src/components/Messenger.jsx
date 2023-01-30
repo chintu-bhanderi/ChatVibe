@@ -48,9 +48,13 @@ const Messenger = () => {
           dispatch(getMessage(currentfriend._id))
      },[ currentfriend?._id]);     
 
-     useEffect(() => {
+     useEffect(() => { 
           scrollRef.current?.scrollIntoView({behavior: 'smooth'}) 
-      },[ message]);
+     },[ message]);
+
+     const emojiSend = (emu) => {
+          setNewMessage(`${newMessage}`+  emu);
+     }
 
      return (
           <div className='messenger'>
@@ -108,6 +112,7 @@ const Messenger = () => {
                               sendMessage={sendMessage}
                               message={message}
                               scrollRef= {scrollRef}
+                              emojiSend = {emojiSend}
                          /> : 'Please Select your Friend'
                     }
 
