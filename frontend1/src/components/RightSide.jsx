@@ -6,7 +6,7 @@ import FriendInfo from './FriendInfo';
 
 const RightSide = (props) => {
 
-     const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend,ImageSend} = props;
+     const {currentfriend,inputHendle,newMessage,sendMessage,message,scrollRef,emojiSend,ImageSend,activeUser} = props;
 
      return (
           <div className='col-9'>
@@ -19,6 +19,10 @@ const RightSide = (props) => {
                                         <div className='image-name'>
                                              <div className='image'>
                                                   <img src={`./image/${currentfriend.image}`} alt='' />
+
+     {
+           activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentfriend._id) ? <div className='active-icon'></div> : ''
+     }
 
                                              </div>
                                              <div className='name'>
@@ -57,7 +61,8 @@ const RightSide = (props) => {
                          </div>
 
                          <div className='col-4'>
-                              <FriendInfo currentfriend={currentfriend} />
+                              <FriendInfo currentfriend={currentfriend} activeUser = {activeUser} />
+
                          </div>
 
 
