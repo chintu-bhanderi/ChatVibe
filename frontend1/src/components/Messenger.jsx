@@ -11,15 +11,30 @@ const Messenger = () => {
 
      const scrollRef = useRef();
      const socket = useRef();
-     // console.log(socket);
-     
+
+
+     const { friends,message } = useSelector(state => state.messenger);
+     // if user is login then and then should showing messenger page..
+     const { myInfo } = useSelector(state => state.auth);
+
+     const [currentfriend, setCurrentFriend] = useState('');
+     const [newMessage, setNewMessage] = useState('');
+     const [activeUser, setActiveUser] = useState([]);
+          
      useEffect(() => {
           socket.current = io("ws://localhost:8000");
      }, []);
 
+     useEffect(() => {
+          socket.current.emit('addUser', myInfo.id, myInfo)
+     },[]);
 
-     const [currentfriend, setCurrentFriend] = useState('');
-     const [newMessage, setNewMessage] = useState('');
+     useEffect(() => {
+          socket.current.on('getUser', (users)=>{
+               const filterUser = users.filter(u => u.userId !== myInfo.id)
+               setActiveUser(filterUser);
+          })
+      },[]);
 
      const inputHendle = (e) => {
           setNewMessage(e.target.value);
@@ -35,12 +50,6 @@ const Messenger = () => {
           }
           dispatch(messageSend(data));
       }
-
-     // console.log(currentfriend);
-
-     const { friends,message } = useSelector(state => state.messenger);
-     // if user is login then and then should showing messenger page..
-     const { myInfo } = useSelector(state => state.auth);
 
      const dispatch = useDispatch();
      useEffect(() => {
@@ -113,7 +122,9 @@ const Messenger = () => {
                                    </div>
                               </div>
                               <div className='active-friends'>
-                                   <ActiveFriend />
+                              {
+                                   activeUser && activeUser.length > 0 ? activeUser.map(u =>  <ActiveFriend user={u} />) : ''  
+                              }
                               </div>
 
                               <div className='friends'>
