@@ -1,5 +1,8 @@
 const User = require('../models/authModel');
 const messageModel = require('../models/messageModel');
+const formidable = require('formidable');
+const fs = require('fs');
+
 
 module.exports.getFriends = async (req, res) => {
      const myId = req.myId;
@@ -71,3 +74,51 @@ module.exports.messageGet = async(req,res) => {
 
      }
 }    
+
+module.exports.ImageMessageSend = (req,res) => {
+     const senderId = req.myId;
+     const form = formidable();
+
+     form.parse(req, (err, fields, files) => {
+          const {
+              senderName,
+              reseverId,
+              imageName 
+          } = fields;
+
+          const newPath = "E:\\React Project\\Udemy Projects\\Chat-App-Project\\frontend1\\public\\image\\"+imageName;
+          const newPath1 = __dirname + `../../../frontend1/public/image/${imageName}`
+          files.image.originalFilename = imageName;
+          try{
+               fs.copyFile(files.image.filepath, newPath, async (err)=>{
+                    if(err){
+                         res.status(500).json({
+                              error : {
+                                   errorMessage: 'Image upload fail'
+                              }
+                         })
+                    } else{
+                         const insertMessage = await messageModel.create({
+                              senderId : senderId,
+                              senderName : senderName,
+                              reseverId : reseverId,
+                              message : {
+                                   text: '',
+                                   image : files.image.originalFilename
+                              }
+                         })
+                         res.status(201).json({
+                              success : true,
+                              message: insertMessage
+                         })
+                    }
+               } )
+          }catch{
+               res.status(500).json({
+                    error : {
+                         errorMessage: 'Internal Sever Error'
+                    }
+               })
+          }
+     })
+}

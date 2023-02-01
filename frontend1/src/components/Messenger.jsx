@@ -5,10 +5,18 @@ import Friends from './Friends';
 import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriends,messageSend,getMessage,ImageMessageSend } from '../store/actions/messengerAction';
+import {io} from 'socket.io-client'
 
 const Messenger = () => {
 
      const scrollRef = useRef();
+     const socket = useRef();
+     // console.log(socket);
+     
+     useEffect(() => {
+          socket.current = io("ws://localhost:8000");
+     }, []);
+
 
      const [currentfriend, setCurrentFriend] = useState('');
      const [newMessage, setNewMessage] = useState('');
@@ -28,7 +36,7 @@ const Messenger = () => {
           dispatch(messageSend(data));
       }
 
-     console.log(currentfriend);
+     // console.log(currentfriend);
 
      const { friends,message } = useSelector(state => state.messenger);
      // if user is login then and then should showing messenger page..
@@ -64,11 +72,11 @@ const Messenger = () => {
                const formData = new FormData();
 
                formData.append('senderName',myInfo.userName);
-               formData.append('imagename',newImageName);
+               formData.append('imageName',newImageName);
                formData.append('reseverId',currentfriend._id);
                formData.append('image', e.target.files[0]);
-               // dispatch(ImageMessageSend(formData));
-               console.log(newImageName);
+               dispatch(ImageMessageSend(formData));
+               // console.log(newImageName);
           }
      }
 

@@ -4,7 +4,7 @@ import {FRIEND_GET_SUCCESS,MESSAGE_GET_SUCCESS,MESSAGE_SEND_SUCCESS} from "../ty
 export const getFriends = () => async(dispatch) => {
      try{
           const response = await axios.get('/api/messenger/get-friends');
-          console.log(response.data.friends);
+          // console.log(response.data.friends);
           dispatch({
                type: FRIEND_GET_SUCCESS,
                payload : {
@@ -51,7 +51,12 @@ export const messageSend = (data) => async(dispatch) => {
 export const ImageMessageSend = (data) => async(dispatch)=>{
      try{
           const response = await axios.post('/api/messenger/image-message-send',data);
-          console.log(response.data);
+          dispatch({
+               type: MESSAGE_SEND_SUCCESS,
+               payload : {
+                    message : response.data.message
+               }
+          })
      }catch (error){
           console.log(error.response.data);
 
