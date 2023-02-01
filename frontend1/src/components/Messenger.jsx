@@ -14,16 +14,33 @@ const Messenger = () => {
 
 
      const { friends,message } = useSelector(state => state.messenger);
-     // if user is login then and then should showing messenger page..
      const { myInfo } = useSelector(state => state.auth);
 
      const [currentfriend, setCurrentFriend] = useState('');
      const [newMessage, setNewMessage] = useState('');
      const [activeUser, setActiveUser] = useState([]);
+     const [socketMessage, setSocketMessage] = useState('');
           
      useEffect(() => {
           socket.current = io("ws://localhost:8000");
+          socket.current.on('getMessage',(data) => {
+               setSocketMessage(data);
+           })
      }, []);
+
+     useEffect(() => {
+          if(socketMessage && currentfriend){
+               if(socketMessage.senderId === currentfriend._id && socketMessage.reseverId === myInfo.id){
+                    dispatch({
+                         type: 'SOCKET_MESSAGE',
+                         payload : {
+                              message: socketMessage
+                         }
+                    })
+               }
+          }
+          setSocketMessage('')
+       },[socketMessage]);
 
      useEffect(() => {
           socket.current.emit('addUser', myInfo.id, myInfo)
@@ -38,7 +55,6 @@ const Messenger = () => {
 
      const inputHendle = (e) => {
           setNewMessage(e.target.value);
-     
      }
 
      const sendMessage = (e) => {
@@ -48,7 +64,18 @@ const Messenger = () => {
                reseverId : currentfriend._id,
                message : newMessage ? newMessage : '❤'
           }
+          socket.current.emit('sendMessage',{
+               senderId : myInfo.id,
+               senderName: myInfo.userName,
+               reseverId: currentfriend._id,
+               time: new Date(),
+               message: {
+                    text: newMessage ? newMessage : '❤',
+                    image: ''
+               }
+          })
           dispatch(messageSend(data));
+          setNewMessage('')
       }
 
      const dispatch = useDispatch();

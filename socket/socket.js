@@ -18,11 +18,31 @@ const userRemove = (socketId) => {
      users = users.filter(u=>u.socketId !== socketId );
 }
 
+const findFriend = (id) => {
+     return users.find(u=>u.userId === id);
+}
+
 io.on('connection',(socket)=>{
      console.log('Socket is connecting...')
      socket.on('addUser',(userId,userInfo)=>{
           addUser(userId,socket.id,userInfo);
           io.emit('getUser',users);
+     })
+     socket.on('sendMessage',(data)=>{
+          const user = findFriend(data.reseverId);
+          // console.log(user);
+          if(user !== undefined){
+               socket.to(user.socketId).emit('getMessage',{
+                    senderId : data.senderId,
+                    senderName :  data.senderName,
+                    reseverId :  data.reseverId,
+                    createAt : data.time,
+                    message : {
+                         text : data.message.text,
+                         image : data.message.image
+                    }
+               })
+          }
      })
      socket.on('disconnect',()=>{
           console.log('User is disconnected');
