@@ -9,8 +9,8 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/messenger/login" element={<Login />}  />            
-          <Route path="/messenger/register" element={<Register />}  />            
+          <Route path="/messenger/login" element={<Login />} />            
+          <Route path="/messenger/register" element={<Register />} />            
           <Route path="/" element={<Messenger />} />
         </Routes>
     </BrowserRouter>      

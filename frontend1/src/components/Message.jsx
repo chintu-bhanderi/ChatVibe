@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const Message = ({ message, currentfriend,scrollRef }) => {
+const Message = ({ message, currentfriend,scrollRef,typingMessage}) => {
      const { myInfo } = useSelector(state => state.auth);
      return (
+          <>
           <div className='message-show'>
                {
                     message && message.length > 0 ? message.map(m =>
@@ -36,6 +37,21 @@ const Message = ({ message, currentfriend,scrollRef }) => {
                     ) : ''
                }
           </div>
+          { typingMessage.msg && typingMessage.senderId===currentfriend._id && <div className='typing-message'>
+                    <div className='fd-message'>
+                         <div className='image-message-time'>
+                         <img src={`./image/${currentfriend.image}`} alt='' />
+                         <div className='message-time'>
+                              <div className='fd-text'>
+                                   <p className='time'>Typing Message.... </p>
+                              </div>
+
+                         </div>
+                         </div>
+                    </div>
+               </div>
+          }
+          </>
      )
 };
 
