@@ -114,6 +114,11 @@ const Messenger = () => {
 
      const emojiSend = (emu) => {
           setNewMessage(`${newMessage}`+  emu);
+          socket.current.emit('typingMessage',{
+               senderId : myInfo.id,
+               reseverId : currentfriend._id,
+               msg : emu
+          })
      }
      
      const ImageSend = (e) => {
