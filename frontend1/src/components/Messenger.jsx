@@ -6,8 +6,15 @@ import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriends,messageSend,getMessage,ImageMessageSend } from '../store/actions/messengerAction';
 import {io} from 'socket.io-client'
+import toast,{Toaster} from 'react-hot-toast';
+import useSound from 'use-sound';
+import notificationSound from '../audio/notification.mp3';
+import sendingSound from '../audio/sending.mp3';
 
 const Messenger = () => {
+
+     const [notificationSPlay] = useSound(notificationSound);   
+     const [sendingSPlay] = useSound(sendingSound);  
 
      const scrollRef = useRef();
      const socket = useRef();
@@ -32,6 +39,14 @@ const Messenger = () => {
                // console.log(data.msg);
            })
      }, []);
+
+     useEffect(() => {
+          if(socketMessage && socketMessage.senderId !== currentfriend._id && socketMessage.reseverId === myInfo.id){
+               notificationSPlay();
+               toast.success(`${socketMessage.senderName} Send a New Message`)
+    
+          }
+     },[socketMessage]);
 
      useEffect(() => {
           if(socketMessage && currentfriend){
@@ -70,6 +85,7 @@ const Messenger = () => {
 
      const sendMessage = (e) => {
           e.preventDefault();
+          sendingSPlay();
           const data = {
                senderName : myInfo.userName,
                reseverId : currentfriend._id,
@@ -123,6 +139,7 @@ const Messenger = () => {
      
      const ImageSend = (e) => {
           if(e.target.files.length !== 0){
+               sendingSPlay();
                const imagename = e.target.files[0].name;
                const newImageName = Date.now() + imagename;
 
@@ -150,6 +167,15 @@ const Messenger = () => {
 
      return (
           <div className='messenger'>
+               <Toaster
+                    position={'top-right'}
+                    reverseOrder = {false}
+                    toastOptions={{
+                         style : {
+                              fontSize : '18px'
+                         }
+                    }}
+               />
                <div className='row'>
                     <div className='col-3'>
                          <div className='left-side'>
