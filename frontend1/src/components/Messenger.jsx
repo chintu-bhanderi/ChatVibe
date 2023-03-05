@@ -4,7 +4,7 @@ import ActiveFriend from './ActiveFriend';
 import Friends from './Friends';
 import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends,messageSend,getMessage,ImageMessageSend } from '../store/actions/messengerAction';
+import { getFriends,messageSend,getMessage,ImageMessageSend,seenMessage,updateMessage   } from '../store/actions/messengerAction';
 import {io} from 'socket.io-client'
 import toast,{Toaster} from 'react-hot-toast';
 import useSound from 'use-sound';
@@ -20,7 +20,7 @@ const Messenger = () => {
      const socket = useRef();
 
 
-     const { friends,message } = useSelector(state => state.messenger);
+     const { friends,message,mesageSendSuccess } = useSelector(state => state.messenger);
      const { myInfo } = useSelector(state => state.auth);
 
      const [currentfriend, setCurrentFriend] = useState('');
@@ -44,7 +44,13 @@ const Messenger = () => {
           if(socketMessage && socketMessage.senderId !== currentfriend._id && socketMessage.reseverId === myInfo.id){
                notificationSPlay();
                toast.success(`${socketMessage.senderName} Send a New Message`)
-    
+               dispatch(updateMessage(socketMessage))
+               dispatch({
+                    type: 'UPDATE_FRIEND_MESSAGE',
+                    payload : {
+                         msgInfo : socketMessage
+                    }
+               })
           }
      },[socketMessage]);
 
@@ -55,6 +61,13 @@ const Messenger = () => {
                          type: 'SOCKET_MESSAGE',
                          payload : {
                               message: socketMessage
+                         }
+                    })
+                    dispatch(seenMessage(socketMessage))
+                    dispatch({
+                         type: 'UPDATE_FRIEND_MESSAGE',
+                         payload : {
+                              msgInfo : socketMessage
                          }
                     })
                }
@@ -80,7 +93,6 @@ const Messenger = () => {
                reseverId : currentfriend._id,
                msg : e.target.value
           })
-     
      }
 
      const sendMessage = (e) => {
@@ -91,16 +103,6 @@ const Messenger = () => {
                reseverId : currentfriend._id,
                message : newMessage ? newMessage : '❤'
           }
-          socket.current.emit('sendMessage',{
-               senderId : myInfo.id,
-               senderName: myInfo.userName,
-               reseverId: currentfriend._id,
-               time: new Date(),
-               message: {
-                    text: newMessage ? newMessage : '❤',
-                    image: ''
-               }
-          })
           socket.current.emit('typingMessage',{
                senderId : myInfo.id,
                reseverId : currentfriend._id,
@@ -114,6 +116,21 @@ const Messenger = () => {
      useEffect(() => {
           dispatch(getFriends());
      }, []);
+     
+     useEffect(() => {
+          if(mesageSendSuccess){
+               socket.current.emit('sendMessage', message[message.length -1 ]);
+               dispatch({
+                    type: 'UPDATE_FRIEND_MESSAGE',
+                    payload : {
+                         msgInfo : message[message.length -1]
+                    }
+               })
+               dispatch({
+                    type: 'MESSAGE_SEND_SUCCESS_CLEAR'
+               })
+          }
+     },[mesageSendSuccess]);
 
      useEffect(() => {
           if(friends && friends.length > 0)
