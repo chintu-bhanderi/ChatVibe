@@ -1,7 +1,10 @@
 import React from 'react';
-import { FaPlusCircle,FaFileImage,FaGift,FaPaperPlane } from "react-icons/fa";
+import { FaPlusCircle,FaFileImage,FaGift,FaPaperPlane} from "react-icons/fa";
+import { AiFillAudio } from "react-icons/ai";
+import AudioSend from './AudioSend';
 
-const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend}) => {
+
+const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend,sendAudioMessage}) => {
 
      const emojis = [
           '😀', '😃', '😄', '😁',
@@ -49,6 +52,14 @@ const MessageSend = ({inputHendle,newMessage,sendMessage,emojiSend,ImageSend}) =
      <div onClick={sendMessage} className='file'>
      ❤
      </div>
+
+     <div className='file'>
+     <AudioSend 
+          sendAudioMessage={sendAudioMessage}
+     />
+     </div>
+
+
 
      <div className='emoji-section'>
           <div className='emoji'>

@@ -32,6 +32,22 @@ export const messageSend = (data) => async(dispatch) => {
      }
  }
 
+export const audioMessageSend = (data) => async(dispatch) => {
+     // console.log(data);
+     try{
+          const response = await axios.post('/api/messenger/send-audio-message',data);
+          dispatch({
+               type : MESSAGE_SEND_SUCCESS,
+               payload : {
+                    message : response.data.message
+               }
+          })
+
+     }catch (error){
+      console.log(error.response.data);
+     }
+ }
+
  export const getMessage = (id) => {
      return async(dispatch) => {
           try{

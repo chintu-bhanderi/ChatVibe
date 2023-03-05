@@ -13,7 +13,16 @@ const Message = ({ message, currentfriend,scrollRef,typingMessage}) => {
                          <div ref={scrollRef} className='my-message'>
                               <div className='image-message'>
                                    <div className='my-text'>
-                                        <p className='message-text'> {m.message.text === '' ? <img src={`./image/${m.message.image}`} alt=""/>  : m.message.text } </p>
+                                        {
+                                             m.message.text !== '' && <p className='message-text'>{m.message.text}</p> 
+                                        }
+                                        {
+                                             m.message.image !== '' && <p className='message-text'><img src={`./image/${m.message.image}`} alt=""/></p> 
+                                        }
+                                        {
+                                             m.message.audio !== '' && <p className='message-text'><audio src={m.message.audio} controls /></p> 
+                                        }
+                                        
                                    </div>
                               </div>
                               <div className='time'>
@@ -26,7 +35,7 @@ const Message = ({ message, currentfriend,scrollRef,typingMessage}) => {
                                    <img src={`./image/${currentfriend.image}`} alt='' />
                                    <div className='message-time'>
                                         <div className='fd-text'>
-                                             <p className='message-text'>{m.message.text === '' ? <img src={`./image/${m.message.image}`} alt=""/>  : m.message.text } </p>
+                                             <p className='message-text'>{m.message.text !== '' ? m.message.text : m.message.image !== '' ? <img src={`./image/${m.message.image}`} alt=""/>: <audio src={m.message.audio} controls /> } </p>
                                         </div>
                                         <div className='time'>
                                              3 Jan 2022

@@ -21,6 +21,10 @@ const messageSchema = new Schema({
          image : {
               type : String,
               default : ''
+         },         
+         audio : {
+              type : String,
+              default : ''
          }         
     },
     status :{

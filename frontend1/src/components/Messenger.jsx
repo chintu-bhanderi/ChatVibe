@@ -4,7 +4,7 @@ import ActiveFriend from './ActiveFriend';
 import Friends from './Friends';
 import RightSide from './RightSide';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends,messageSend,getMessage,ImageMessageSend,seenMessage,updateMessage   } from '../store/actions/messengerAction';
+import { getFriends,messageSend,getMessage,ImageMessageSend,seenMessage,updateMessage, audioMessageSend   } from '../store/actions/messengerAction';
 import {io} from 'socket.io-client'
 import toast,{Toaster} from 'react-hot-toast';
 import useSound from 'use-sound';
@@ -109,6 +109,22 @@ const Messenger = () => {
                msg : ''
           })
           dispatch(messageSend(data));
+          setNewMessage('')
+      }
+      
+     const sendAudioMessage = (url) => {
+          // sendingSPlay();
+          const data = {
+               senderName : myInfo.userName,
+               reseverId : currentfriend._id,
+               audioMessage : url ? url : '❤'
+          }
+          socket.current.emit('typingMessage',{
+               senderId : myInfo.id,
+               reseverId : currentfriend._id,
+               msg : ''
+          })
+          dispatch(audioMessageSend(data));
           setNewMessage('')
       }
 
@@ -253,6 +269,7 @@ const Messenger = () => {
                               ImageSend= {ImageSend}
                               activeUser = {activeUser}
                               typingMessage = {typingMessage}
+                              sendAudioMessage={sendAudioMessage}
                          /> : 'Please Select your Friend'
                     }
 

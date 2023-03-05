@@ -76,7 +76,41 @@ module.exports.messageUploadDB = async (req, res) =>{
                reseverId : reseverId,
                message : {
                     text: message,
-                    image : ''
+                    image : '',
+                    audio : ''
+               }
+          })
+          res.status(201).json({
+               success : true,
+               message: insertMessage
+          })
+
+     }catch (error){
+          res.status(500).json({
+               error: {
+                    errorMessage : 'Internal Sever Error'
+               }
+          })
+     }
+}
+
+module.exports.audioMessageUploadDB = async (req, res) =>{
+     const {
+          senderName,
+          reseverId,
+          audioMessage
+     } = req.body
+     const senderId = req.myId;
+
+     try{
+          const insertMessage = await messageModel.create({
+               senderId : senderId,
+               senderName : senderName,
+               reseverId : reseverId,
+               message : {
+                    text: '',
+                    image : '',
+                    audio : audioMessage
                }
           })
           res.status(201).json({
@@ -167,7 +201,8 @@ module.exports.ImageMessageSend = (req,res) => {
                               reseverId : reseverId,
                               message : {
                                    text: '',
-                                   image : files.image.originalFilename
+                                   image : files.image.originalFilename,
+                                   audio : ''
                               }
                          })
                          res.status(201).json({
