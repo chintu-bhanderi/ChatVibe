@@ -86,14 +86,22 @@ const Messenger = () => {
           })
       },[]);
 
-     const inputHendle = (e) => {
-          setNewMessage(e.target.value);
+     const inputHendle = (value) => {
+          setNewMessage(value);
           socket.current.emit('typingMessage',{
                senderId : myInfo.id,
                reseverId : currentfriend._id,
-               msg : e.target.value
+               msg : value
           })
      }
+     // const inputHendle = (e) => {
+     //      setNewMessage(e.target.value);
+     //      socket.current.emit('typingMessage',{
+     //           senderId : myInfo.id,
+     //           reseverId : currentfriend._id,
+     //           msg : e.target.value
+     //      })
+     // }
 
      const sendMessage = (e) => {
           e.preventDefault();
@@ -270,6 +278,7 @@ const Messenger = () => {
                               activeUser = {activeUser}
                               typingMessage = {typingMessage}
                               sendAudioMessage={sendAudioMessage}
+                              setNewMessage={setNewMessage}
                          /> : 'Please Select your Friend'
                     }
 
