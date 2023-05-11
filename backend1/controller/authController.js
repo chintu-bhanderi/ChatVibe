@@ -87,7 +87,6 @@ module.exports.userRegister = (req, res) => {
                                         token
                                    })
                               } else {
-                                   // console.log('Image move error-> ',error);
                                    res.status(500).json({
                                         error: {
                                              errorMessage: ['Internal Server Error']

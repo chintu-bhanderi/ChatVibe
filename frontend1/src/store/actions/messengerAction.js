@@ -17,6 +17,23 @@ export const getFriends = () => async(dispatch) => {
      }
 }
 
+export const getMessageSuggestions = async() => {
+     try{
+          const response = await axios.get('/api/messenger/message-suggestion');
+          return response.data.messageArray;
+     }catch (error){
+          console.log(error.response.data);
+     }
+}
+
+export const postMessageSuggestions = async(message) => {
+     try{
+          await axios.post('/api/messenger/message-suggestion',{message});
+     }catch (error){
+          console.log(error.response.data);
+     }
+}
+
 export const messageSend = (data) => async(dispatch) => {
      try{
           const response = await axios.post('/api/messenger/send-message',data);
@@ -75,7 +92,6 @@ export const ImageMessageSend = (data) => async(dispatch)=>{
           })
      }catch (error){
           console.log(error.response.data);
-
      }
 }
 
@@ -86,7 +102,6 @@ export const seenMessage = (msg) => async(dispatch)=> {
           console.log(response.data);
      }catch (error){
           console.log(error.response.message)
-
      }
 }
 

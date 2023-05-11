@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import Awesomplete from 'awesomplete';
 import { FaPlusCircle, FaFileImage, FaGift, FaPaperPlane } from "react-icons/fa";
 import AudioSend from './AudioSend';
+import { getMessageSuggestions, postMessageSuggestions } from '../store/actions/messengerAction';
+// import fs from 'fs';
 
 
 const MessageSend = ({ inputHendle, newMessage, sendMessage, emojiSend, ImageSend, sendAudioMessage, setNewMessage }) => {
@@ -23,10 +25,16 @@ const MessageSend = ({ inputHendle, newMessage, sendMessage, emojiSend, ImageSen
      };
 
      const sendMessageHandler = (event) => {
-          if(!suggestions.includes(newMessage))
-               setSuggestions([...suggestions,newMessage]); 
+          if(!suggestions.includes(newMessage)) {
+               // setSuggestions([...suggestions,newMessage]); 
+               postMessageSuggestions(newMessage).then(()=>setSuggestions([...suggestions,newMessage]));
+          }
           sendMessage(event);
      }
+
+     useEffect(()=>{     
+          getMessageSuggestions().then(data=>setSuggestions(data));
+     },[]);
 
      useEffect(() => {
           if (inputRef.current && !awesompleteRef.current) {

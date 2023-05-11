@@ -259,3 +259,45 @@ module.exports.delivaredMessage = async (req,res) => {
           })
      })
 }
+
+module.exports.getMessageSuggestion = async (req,res) => {
+     try{
+          const newPath = "E:\\React Project\\Udemy Projects\\Chat-App-Project\\frontend1\\public\\message\\messages.txt";
+          fs.readFile(newPath, 'utf-8', function (err, data) {
+               if (err) {
+                 console.error(err);
+                 res.status(500).send('Error reading messages');
+               } else {
+                    const messageArray = data.trim().split('\n');
+                    res.status(200).json({messageArray});
+               }
+             });
+     } catch (err) {
+          res.status(500).json({
+               error: {
+                    errorMessage :'Internal Sever Error'
+               }
+          })
+     }
+}
+
+module.exports.postMessageSuggestion = async (req,res) => {
+     try{
+          const message = req.body.message;
+          const newPath = "E:\\React Project\\Udemy Projects\\Chat-App-Project\\frontend1\\public\\message\\messages.txt";
+          fs.appendFile(newPath, message + '\n' , function (err) {
+               if (err) {
+                 console.error(err);
+                 res.status(500).send('Error reading messages');
+               } else {
+                    res.status(200).json({message:"Message added successfully"});
+               }
+          });
+     } catch (err) {
+          res.status(500).json({
+               error: {
+                    errorMessage :'Internal Sever Error'
+               }
+          })
+     }
+}
