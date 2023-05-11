@@ -17,7 +17,10 @@ const registerSchema = new Schema({
      image : {
           type: String,
           required : true
-     }
+     },
+     friends: [{
+          type: String,
+     }]
 },{timestamps : true});
 
 module.exports = model('user',registerSchema);

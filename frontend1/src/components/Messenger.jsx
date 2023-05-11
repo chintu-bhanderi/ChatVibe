@@ -64,7 +64,7 @@ const Messenger = () => {
                          }
                     })
                     dispatch(seenMessage(socketMessage))
-                    dispatch({
+                    dispatch({ 
                          type: 'UPDATE_FRIEND_MESSAGE',
                          payload : {
                               msgInfo : socketMessage

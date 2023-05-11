@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const databaseConnect = require('./config/database')
 const authRouter = require('./routes/authRoute');
 const messengerRoute = require('./routes/messengerRoute');
+const friendRoute = require('./routes/friendRoute');
 
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());    
 app.use('/api/messenger',authRouter);
 app.use('/api/messenger',messengerRoute);
+app.use('/api/friend',friendRoute);
 
 const PORT = process.env.PORT || 5000;
 

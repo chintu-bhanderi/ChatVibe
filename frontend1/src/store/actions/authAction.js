@@ -13,6 +13,7 @@ export const userRegister = (data) => {
           try{
                console.log("data-> ",data);
                const response = await axios.post('/api/messenger/user-register',data);
+               // const response = await axios.post('/api/friend/add',data);
                // console.log(response.data);
                localStorage.setItem('authToken',response.data.token);
 
@@ -40,7 +41,11 @@ export const userRegister = (data) => {
 export const userLogin = (data) => {
      return async (dispath) => {
           try {
-               const response = await axios.post('/api/messenger/user-login', data);
+               // const response = await axios.post('/api/messenger/user-login', data);
+               const response = await axios.post('/api/friend/add', {
+                    userId:"645b869938e91297dc542bc8",
+                    friendId:"63cf38d0a8d04693164ea802"
+               });
                localStorage.setItem('authToken', response.data.token);
                dispath({
                    type: USER_LOGIN_SUCCESS,
